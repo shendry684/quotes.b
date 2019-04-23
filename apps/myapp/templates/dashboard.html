@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Quotes</title>
+    <style>
+        table {
+                  font-family: arial, sans-serif;
+                  border-collapse: collapse;
+                  width: 50%;
+                  height: 150px;
+                  float: left;
+                  
+                }
+                
+                td, th {
+                  border: 1px solid #dddddd;
+                  text-align: left;
+                  padding: 8px;
+                }
+                
+                tr:nth-child(even) {
+                  background-color: #dddddd;
+                }
+
+               
+               
+
+     
+
+     
+   
+    </style>
+   
+</head>
+    <body>
+       
+        <h1>Welcome {{user.name}}!</h1>
+        <h2>Quotable Quotes</h2>
+        <p> <a href="/logout">Logout</a><a href="showquote/{{ i.id }}">Show</a></p>
+       
+        <h1>Quotes:</h1>
+        <table>
+           
+            {% for i in quotes %}
+            <tr>
+        
+                <td>{{ i.addedby.alias }}:     {{ i.title }}<br>Posted by <a href="/showquote/{{ i.id }}">{{ i.addedby.name }}<a href="/showquote/{{ i.id }}"> 
+                
+                
+                    <td><a href="/unfavorite/{{i.id}}">Add to my list</a></td>
+                
+            </tr>
+            {% endfor %}
+        
+    <h1>All Quotes:</h1>
+        <table>
+            <tr>
+            
+            </tr>
+            {% for i in unfavorites %}
+            <tr>
+
+            <td>{{ i.addedby.alias }}: {{ i.title }}<br>Posted by <a href="/showquote/{{ i.id }}">{{ i.addedby.name }}<a
+                        href="/showquote/{{ i.id }}">
+            
+            <td><a href="/favorite/{{i.id}}">Remove from my list</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    
+            
+    <h1>Contribute A Quote</h1>
+    <form action="/processquote" method="POST">
+        {% csrf_token %}
+       
+            
+            <input type="text" name="author" placeholder="Enter Author Name">
+            <input type="text" name="title" placeholder="Enter quote">
+            <input type="submit" value="Submit"><br><br>
+            <button><a href="/dashboard">Go Back</a></button>
+       
+    </form>
+    {% if messages %}
+            {% for message in messages %}
+            <p{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</p>
+                {% endfor %}
+        {% endif %}
+
+        
+
+    
+
+</body>
+</html>
